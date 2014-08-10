@@ -14,14 +14,13 @@ type Terrain struct {
 	Heights         [][]float32
 	VertexPositions []float32
 	VertexColors    []float32
-	VertexIndices   []int
+	VertexIndices   []uint32
 	TextureCoords   []float32
 }
 
 //args -> inputFile-bitmap, desired-tile-width, desired-tile-height
 func main() {
-	fmt.Printf("Starting...")
-
+	fmt.Println("Starting...")
 	//load the heightmap image file
 	hmImageFile, err := os.Open(os.Args[1])
 	if err != nil {
@@ -58,13 +57,13 @@ func main() {
 			color := hmImage.At(x*width/MAP_X, y*height/MAP_Y)
 			r, _, _, _ = color.RGBA()
 			R = float32(r) / 65535
-			heights[x][y] = 1 * R
+			heights[x][y] = 9 * R
 		}
 	}
 
 	vertexPositions := make([]float32, 12*MAP_X*MAP_Y)
 	vertexColors := make([]float32, 16*MAP_X*MAP_Y)
-	vertexIndices := make([]int, 6*MAP_X*MAP_Y)
+	vertexIndices := make([]uint32, 6*MAP_X*MAP_Y)
 	textureCoords := make([]float32, 8*MAP_X*MAP_Y)
 	tileNum := 0
 	//generate terrain vertex data
@@ -86,7 +85,7 @@ func main() {
 			}
 
 			start = tileNum * 6
-			startIndex := tileNum * 4
+			startIndex := uint32(tileNum * 4)
 			vertexIndices[start], vertexIndices[start+3] = startIndex, startIndex
 			vertexIndices[start+1] = startIndex + 1
 			vertexIndices[start+2], vertexIndices[start+4] = startIndex+2, startIndex+2
