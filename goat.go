@@ -15,6 +15,7 @@ type Terrain struct {
 	VertexPositions []float32
 	VertexColors    []float32
 	VertexIndices   []int
+	TextureCoords   []float32
 }
 
 //args -> inputFile-bitmap, desired-tile-width, desired-tile-height
@@ -64,6 +65,7 @@ func main() {
 	vertexPositions := make([]float32, 12*MAP_X*MAP_Y)
 	vertexColors := make([]float32, 16*MAP_X*MAP_Y)
 	vertexIndices := make([]int, 6*MAP_X*MAP_Y)
+	textureCoords := make([]float32, 8*MAP_X*MAP_Y)
 	tileNum := 0
 	//generate terrain vertex data
 	for z := 0; z < MAP_X; z++ {
@@ -90,11 +92,18 @@ func main() {
 			vertexIndices[start+2], vertexIndices[start+4] = startIndex+2, startIndex+2
 			vertexIndices[start+5] = startIndex + 3
 
+			//texture coordinates
+			start = tileNum * 8
+			textureCoords[start], textureCoords[start+1] = 0.0, 0.0
+			textureCoords[start+2], textureCoords[start+3] = 1.0, 0.0
+			textureCoords[start+4], textureCoords[start+5] = 1.0, 1.0
+			textureCoords[start+6], textureCoords[start+7] = 0.0, 1.0
+
 			tileNum++
 		}
 	}
 
-	harr := Terrain{heights, vertexPositions, vertexColors, vertexIndices}
+	harr := Terrain{heights, vertexPositions, vertexColors, vertexIndices, textureCoords}
 	jsonHarr, _ := json.Marshal(harr)
 
 	ioutil.WriteFile("out.json", jsonHarr, 0644)
