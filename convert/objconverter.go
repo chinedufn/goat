@@ -2,6 +2,8 @@ package convert
 
 import (
 	"bufio"
+	"encoding/json"
+	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -63,4 +65,10 @@ func (o *Object) LoadFromFile(filename string) *Object {
 	}
 
 	return o
+}
+
+//Saves an object to a json file
+func (o *Object) SaveToFile(filename string) {
+	objJson, _ := json.Marshal(o)
+	ioutil.WriteFile(filename, objJson, 0644)
 }
