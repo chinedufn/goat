@@ -5,6 +5,18 @@ import (
 	"testing"
 )
 
+func TestBuildTerrain(t *testing.T) {
+	terrainWithoutHeights := BuildTerrain(2, 2, 1, nil)
+	//We're going to eventually want the terrain to be built of triangle strips instead
+	//or better yet... Give the user the option to chose how the terrain is built
+	if len(terrainWithoutHeights.VertexIndices) != 24 {
+		t.Error("Incorrect number of vertex indices")
+	}
+	if len(terrainWithoutHeights.VertexPositions) != 9 {
+		t.Error("Incorrect number of vertices")
+	}
+}
+
 func TestGetHeights(t *testing.T) {
 	fmt.Println("Starting")
 	heightsJPG := GetHeights(2, 2, 1, "helpers/heightmap16x16.jpg")

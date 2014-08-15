@@ -2,6 +2,7 @@ package terrain
 
 import (
 	"code.google.com/p/go.image/bmp"
+	"fmt"
 	"image"
 	"image/jpeg"
 	"os"
@@ -11,9 +12,15 @@ type Terrain struct {
 	Heights         [][]float32
 	VertexPositions []float32
 	VertexIndices   []int
-	VertexColors    []float32
+	//VertexColors    []float32
 	//VertexNormals []float32
 	//TextureCoords   []float32
+}
+
+func BuildTerrain(MAP_X int, MAP_Z int, tileSize float32, heights [][]float32) *Terrain {
+	t := &Terrain{}
+	fmt.Println("building some terrain!")
+	return t
 }
 
 func GetHeights(MAP_X int, MAP_Z int, scale float32, filename string) [][]float32 {
