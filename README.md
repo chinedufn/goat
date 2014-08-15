@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/chinedufn/goat.png)](https://travis-ci.org/chinedufn/goat?branch=master)
+
 ##Goat
 
 Goat is an opinionated command line tool for webgl development. The api is currently very unstable.
@@ -25,7 +27,7 @@ Use goat to generate your terrain from a heightmap
 
 ```
 //provide a heightmap file, width in squares, height in squares
-goat heightmap.bmp 64 64
+$ goat heightmap.bmp 64 64
 ```
 
 Later in your javascript file...
