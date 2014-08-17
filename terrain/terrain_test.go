@@ -5,18 +5,21 @@ import (
 	"testing"
 )
 
+//This test assumes that the terrain is built with each square having its own unique 4 vertices
+//This might not be the most efficient since it is possible to share vertices.
+//Must look into how sharing vertices effects normals, textures, and colors
 func TestBuildTerrain(t *testing.T) {
 	terrainWithoutHeights := BuildTerrain(2, 2, 1, nil)
-	//We're going to eventually want the terrain to be built of triangle strips instead
-	//or better yet... Give the user the option to chose how the terrain is built
-	if len(terrainWithoutHeights.VertexIndices) != 24 {
+
+	if len(terrainWithoutHeights.VertexIndices) != 4*6 {
 		t.Error("Incorrect number of vertex indices")
 	}
-	if len(terrainWithoutHeights.VertexPositions) != 9 {
+	if len(terrainWithoutHeights.VertexPositions) != 16*3 {
 		t.Error("Incorrect number of vertices")
 	}
 }
 
+//Test whether we are able to generate a height array using an image
 func TestGetHeights(t *testing.T) {
 	fmt.Println("Starting")
 	heightsJPG := GetHeights(2, 2, 1, "helpers/heightmap16x16.jpg")

@@ -9,20 +9,50 @@ import (
 )
 
 type Terrain struct {
-	Heights         [][]float32
 	VertexPositions []float32
-	VertexIndices   []int
+	VertexIndices   []uint32
 	//VertexColors    []float32
 	//VertexNormals []float32
 	//TextureCoords   []float32
 }
 
-func BuildTerrain(MAP_X int, MAP_Z int, tileSize float32, heights [][]float32) *Terrain {
-	t := &Terrain{}
+//Generates a Terrain struct
+func BuildTerrain(MAP_X int, MAP_Z int, tileSize float32, heights [][]float32) Terrain {
 	fmt.Println("building some terrain!")
-	return t
+	vertexPositions := make([]float32, 12*MAP_X*MAP_Z)
+	vertexIndices := make([]uint32, 6*MAP_X*MAP_Z)
+	tileNum := 0
+	//generate terrain vertex data
+	//Refactor this to call external functions and be more readable
+	for z := 0; z < MAP_Z; z++ {
+		for x := 0; x < MAP_X; x++ {
+			start := tileNum * 12
+			vertexPositions[start], vertexPositions[start+9] = float32(x), float32(x)
+			vertexPositions[start+1] = nilOrHeight(heights, x, z)
+			vertexPositions[start+2], vertexPositions[start+5] = float32(-z), float32(-z)
+			vertexPositions[start+3], vertexPositions[start+6] = float32(x+1), float32(x+1)
+			vertexPositions[start+4] = nilOrHeight(heights, x+1, z)
+			vertexPositions[start+7] = nilOrHeight(heights, x+1, z+1)
+			vertexPositions[start+8], vertexPositions[start+11] = float32(-z-1), float32(-z-1)
+			vertexPositions[start+10] = nilOrHeight(heights, x, z+1)
+
+			start = tileNum * 6
+			startIndex := uint32(tileNum * 4)
+			vertexIndices[start], vertexIndices[start+3] = startIndex, startIndex
+			vertexIndices[start+1] = startIndex + 1
+			vertexIndices[start+2], vertexIndices[start+4] = startIndex+2, startIndex+2
+			vertexIndices[start+5] = startIndex + 3
+
+			tileNum++
+		}
+	}
+
+	terrain := Terrain{vertexPositions, vertexIndices}
+
+	return terrain
 }
 
+//Generate a height array from a source heightmap image
 func GetHeights(MAP_X int, MAP_Z int, scale float32, filename string) [][]float32 {
 	//load the heightmap image
 	hmImageFile, err := os.Open(filename)
@@ -64,4 +94,13 @@ func GetHeights(MAP_X int, MAP_Z int, scale float32, filename string) [][]float3
 	}
 
 	return heights
+}
+
+//used to test if a heightmap array was passed or not
+func nilOrHeight(heights [][]float32, x int, z int) float32 {
+	if heights == nil {
+		return 0.0
+	} else {
+		return heights[x][z]
+	}
 }
