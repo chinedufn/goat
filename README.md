@@ -23,11 +23,10 @@ $ go install
 
 #### Terrain
 
-Use goat to generate your terrain from a heightmap
+Use the terrain argument to generate your terrain files
 
 ```
-//provide a heightmap file, width in squares, height in squares
-$ goat heightmap.bmp 64 64
+$ goat terrain
 ```
 
 Later in your javascript file...
