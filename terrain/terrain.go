@@ -3,7 +3,6 @@ package terrain
 import (
 	"code.google.com/p/go.image/bmp"
 	"encoding/json"
-	"fmt"
 	"image"
 	"image/jpeg"
 	"io/ioutil"
@@ -20,7 +19,6 @@ type Terrain struct {
 
 //Generates a Terrain struct
 func BuildTerrain(MAP_X int, MAP_Z int, tileSize float32, heights [][]float32) Terrain {
-	fmt.Println("building some terrain!")
 	vertexPositions := make([]float32, 12*MAP_X*MAP_Z)
 	vertexIndices := make([]uint32, 6*MAP_X*MAP_Z)
 	tileNum := 0
@@ -108,7 +106,7 @@ func nilOrHeight(heights [][]float32, x int, z int) float32 {
 }
 
 //SaveTerrainFile saves a json representation of the terrain to disk
-func SaveTerrainFile(terrain *Terrain, filename string) {
+func (terrain *Terrain) SaveToFile(filename string) {
 	terrainJSON, _ := json.Marshal(terrain)
 
 	//append '.json' to the filename if not present
