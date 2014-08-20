@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/chinedufn/goat/convert"
 	"github.com/chinedufn/goat/terrain"
 	"os"
 	"strconv"
@@ -11,7 +12,8 @@ import (
 func main() {
 	if os.Args[1] == "terrain" {
 		HandleTerrainArg()
-	} else {
+	} else if os.Args[1] == "convert" {
+		HandleConvertArg()
 	}
 }
 
@@ -35,6 +37,17 @@ func HandleTerrainArg() {
 		}
 		ter := terrain.BuildTerrain(MAP_X, MAP_Z, 1, heights)
 		ter.SaveToFile(jsonFile)
+	}
+}
+
+func HandleConvertArg() {
+	if len(os.Args) > 2 {
+		//parameters are inline
+	} else {
+		inputFile := GetInput("3d model filename [string] : ")
+		outputFile := GetInput("JSON output file name [string] : ")
+		object := convert.LoadFromFile(inputFile)
+		object.SaveToFile(outputFile)
 	}
 }
 

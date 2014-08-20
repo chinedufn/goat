@@ -37,6 +37,14 @@ var vertexPositions = loadedData.VertexPositions
 var vertexIndicies = loadedData.VertexIndices
 ```
 
+#### 3d Model Files
+
+Convert 3d models into a webgl-friendly JSON format (Currently supports .obj files)
+
+```
+$ goat convert
+```
+
 #### Note
 
 The goat api is currently unstable and will see unpredictable changes as I use it more and familiarize myself with golang.

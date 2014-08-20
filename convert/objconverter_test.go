@@ -5,8 +5,7 @@ import (
 )
 
 func TestLoadFromFile(t *testing.T) {
-	obj := Object{}
-	loadedObj := obj.LoadFromFile("helpers/cube.obj")
+	loadedObj := LoadFromFile("helpers/cube.obj")
 
 	//8 vertices, 3 data points per vertex
 	if len(loadedObj.VertexPositions) != 24 {

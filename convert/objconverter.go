@@ -19,7 +19,7 @@ type Object struct {
 }
 
 //Loads a .obj file and stores the data in an Object struct
-func (o *Object) LoadFromFile(filename string) *Object {
+func LoadFromFile(filename string) *Object {
 	//initialize data arrays
 	VertexPositions := make([]float32, 0)
 	VertexIndices := make([]int, 0)
@@ -58,13 +58,13 @@ func (o *Object) LoadFromFile(filename string) *Object {
 		}
 	}
 
-	o = &Object{VertexPositions, VertexIndices}
+	obj := &Object{VertexPositions, VertexIndices}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	return o
+	return obj
 }
 
 //Saves an object to a json file
