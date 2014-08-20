@@ -2,9 +2,11 @@ package terrain
 
 import (
 	"code.google.com/p/go.image/bmp"
+	"encoding/json"
 	"fmt"
 	"image"
 	"image/jpeg"
+	"io/ioutil"
 	"os"
 )
 
@@ -103,4 +105,16 @@ func nilOrHeight(heights [][]float32, x int, z int) float32 {
 	} else {
 		return heights[x][z]
 	}
+}
+
+//SaveTerrainFile saves a json representation of the terrain to disk
+func SaveTerrainFile(terrain *Terrain, filename string) {
+	terrainJSON, _ := json.Marshal(terrain)
+
+	//append '.json' to the filename if not present
+	if filename[len(filename)-5:] != ".json" {
+		filename = filename + ".json"
+	}
+
+	ioutil.WriteFile(filename, terrainJSON, 0644)
 }
