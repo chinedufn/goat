@@ -49,7 +49,7 @@ func LoadFromFile(filename string) *Object {
 		if fields[0] == "f" {
 			for i := 0; i < 4; i++ {
 				//subtracting one from each index in order to zero index
-				vIndices[i], _ = strconv.Atoi(fields[i+1])
+				vIndices[i], _ = strconv.Atoi(strings.Split(fields[i+1], "//")[0])
 				vIndices[i]--
 			}
 			vIndices[5] = vIndices[3]
